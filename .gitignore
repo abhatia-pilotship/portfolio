@@ -147,3 +147,18 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+
+# Playwright test output (traces, screenshots, reports)
+.playwright/
+test-results/
+playwright-report/
+blob-report/
+
+# taste-skill (design-taste-frontend) scratch output
+.taste-skill/
+
+# Impeccable local-only config and any machine-local overrides
+.impeccable/config.local.json
+*.local.json

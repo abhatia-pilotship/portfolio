@@ -45,6 +45,22 @@ Aryan's differentiator is **range across the hardware/software boundary**: embed
 - Motion governed by Emil Kowalski's rules; verification via Playwright CLI (cross-browser, reduced-motion, regression).
 - Reference `design/reference/*.DESIGN.md` is mood input only.
 
+## Provisional Decisions (build run 2026-10-18 — PROVISIONAL, Aryan to review)
+
+These were decided for this build so it could proceed end-to-end without blocking. All are editable.
+
+- **Featured projects (4), proving the range thesis** — ≥1 each of AI/ML, robotics/embedded, full-stack:
+  1. **Mir.AI** (AI/ML) — award-winning GAN medical-imaging work with the only real demo *video* on hand; the strongest, most verifiable AI proof.
+  2. **FloorScan ML** (robotics / embedded / CV) — Raspberry Pi + ROS + SLAM + PyTorch CNN; the clearest hardware↔software story and recent (2026).
+  3. **Connectogen** (full-stack) — production Next.js/Node/WebSockets platform with real users across Emory/GT/Morehouse; proves shipped full-stack at scale.
+  4. **Sensi** (AI + full-stack bridge) — most recent (2026) hackathon build; LLM pipeline + React UI + Chrome extension, shows AI and product-shipping together.
+  - All 11 projects still get a detail page; these 4 are surfaced on the home page.
+- **Stat counters:** dropped (the "0+" animated counters are not rendered anywhere).
+- **Metrics:** used only **as written in `content/source.md`**, never rounded up or inflated. Every metric lives in the project/profile content data so Aryan can edit or delete it without touching components.
+- **Contact:** a working `mailto:` link to the email in `## Brand Commitments` (aryan.bhatia@gatech.edu). **No contact form.**
+- **Accessibility target:** **WCAG 2.2 AA** (see `## Accessibility & Inclusion`).
+- **Imagery (strict):** NO evidence hunting, NO found/archive images. Allowed only: Aryan's headshot *if present in `public/assets/own/`*, and the Mir.AI YouTube video. Every other picture slot is a clearly-marked placeholder at the exact size/crop the composition needs, labelled with what belongs there. taste-skill's image-floor FAIL is treated as a **documented known gap**, not worked around.
+
 ## Brand Commitments
 
 - Name: **Aryan Bhatia**. Short mark used today: "Aryan."
@@ -74,10 +90,10 @@ Real, usable evidence (see `content/source.md` for full facts + source URLs):
 - Robotics/hardware projects (GTXR, Studio Camera, FloorScan), Connectogen, and InvoiceOS have **no confirmed real photos/footage**.
 
 **Open product decisions (record, do not invent):**
-1. **Featured projects (max 4, priority order): UNDECIDED** — Aryan has new projects to add first and will supply the final list.
-2. **Homepage stat counters** (LeetCode problems, hackathon awards, CodeChef rating, GitHub contributions) render as "0+" on the current site — **real numbers unverified**; confirm or drop before use.
-3. **Self-reported experience metrics** (e.g. 85% accuracy, 10,000+ images/mo, 60% latency cut, 500+ users, etc.) are Aryan's own claims — confirm which stand as-is vs. should be softened; never inflate.
-4. **Contact channel beyond email** — no phone number on file; decide whether a working contact form is in scope.
+1. **Featured projects:** resolved PROVISIONALLY for this build (see Provisional Decisions). Aryan has new projects to add and will revise.
+2. **Homepage stat counters:** DROPPED (see Provisional Decisions).
+3. **Self-reported experience metrics** are used verbatim from `content/source.md`, never inflated (see Provisional Decisions). Aryan to confirm which stand.
+4. **Contact channel:** `mailto:` only, no form (see Provisional Decisions). No phone on file.
 
 ## Product Principles
 
@@ -89,4 +105,4 @@ Real, usable evidence (see `content/source.md` for full facts + source URLs):
 
 ## Accessibility & Inclusion
 
-No formal standard mandated by Aryan yet. Given the audience skims on mobile and one of his flagship projects is an accessibility tool, treat baseline accessibility as a product value: keyboard-navigable, sufficient contrast, honored `prefers-reduced-motion`, real alt text, and a contact path usable without a pointer. (Confirm a target standard, e.g. WCAG 2.1 AA, if one is required.)
+**Target standard: WCAG 2.2 AA** (PROVISIONAL, set for this build). Given the audience skims on mobile and one flagship project is an accessibility tool, accessibility is a product value: keyboard-navigable, sufficient contrast, honored `prefers-reduced-motion` (content never hidden if JS/animation fails), real alt text, visible focus states, and a contact path usable without a pointer.
