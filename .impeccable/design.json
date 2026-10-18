@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T00:00:00Z",
+  "title": "Design System: Aryan Bhatia Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Signal Teal", "canonical": "#1aa88f", "tonalRamp": ["#06231d", "#0a3a2f", "#0d5243", "#116b58", "#15846d", "#1aa88f", "#4ec1ab", "#9fe0d3"] },
+      "bg": { "role": "neutral", "displayName": "Charcoal", "canonical": "#191919", "tonalRamp": ["#0d0d0d", "#161616", "#1f1f1f", "#2a2a2a", "#3a3a3a", "#525252", "#8a8a8a", "#d4d4d4"] },
+      "surface": { "role": "neutral", "displayName": "Surface", "canonical": "#242424", "tonalRamp": ["#121212", "#1b1b1b", "#242424", "#2e2e2e", "#3d3d3d", "#565656", "#8c8c8c", "#d6d6d6"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#ffffff", "tonalRamp": ["#262626", "#404040", "#5c5c5c", "#808080", "#a3a3a3", "#c7c7c7", "#e6e6e6", "#ffffff"] },
+      "muted": { "role": "neutral", "displayName": "Muted", "canonical": "#9a9a9a", "tonalRamp": ["#2e2e2e", "#454545", "#5e5e5e", "#787878", "#9a9a9a", "#b5b5b5", "#d0d0d0", "#ebebeb"] },
+      "field-1": { "role": "secondary", "displayName": "Poster Red", "canonical": "#d71e1e", "tonalRamp": ["#3a0606", "#5c0d0d", "#821414", "#a81818", "#d71e1e", "#e65151", "#f08c8c", "#f8c7c7"] },
+      "field-2": { "role": "secondary", "displayName": "Poster Blue", "canonical": "#1e4bd7", "tonalRamp": ["#0a1740", "#102466", "#163490", "#1a40b8", "#1e4bd7", "#5176e3", "#8ca3ee", "#c7d4f7"] },
+      "field-3": { "role": "secondary", "displayName": "Deep Teal Field", "canonical": "#0c7866", "tonalRamp": ["#032019", "#053327", "#074a3a", "#0a614e", "#0c7866", "#3f9b8c", "#82c0b5", "#c3e2db"] },
+      "field-4": { "role": "secondary", "displayName": "Poster Yellow", "canonical": "#ffe927", "tonalRamp": ["#3d3800", "#5c5400", "#827600", "#a89900", "#d4c100", "#ffe927", "#fff170", "#fff8b8"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Condensed uppercase Big Shoulders 800 — hero statement, compared words, section titles, email close, footer wordmark." },
+      "head": { "displayName": "Head", "purpose": "The large display step (--step-head) for poster-scale headlines." },
+      "lead": { "displayName": "Lead", "purpose": "Public Sans supporting sentences, bio, contact intro." },
+      "body": { "displayName": "Body", "purpose": "All running prose, capped at a 58ch measure." },
+      "small": { "displayName": "Label / Small", "purpose": "Nav, metadata, uppercase tracked category labels, dates." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default easing — entrances, press, lift, masked line reveal. Emil Kowalski's curve, used verbatim." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "Symmetric transitions." },
+      { "name": "ease-drawer", "value": "cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Drawer-style motion." },
+      { "name": "dur-sig", "value": "900ms", "purpose": "Duration of the one signature move, the masked hero line reveal." },
+      { "name": "entrance", "value": "opacity + translateY(24px), 600ms ease-out, 80ms stagger", "purpose": "Quiet scroll entrances on [data-animate]; failure-safe and reduced-motion-safe." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single hero call to action; square-cornered teal fill that inverts to ink on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">See the work</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; background: var(--accent, #1aa88f); color: var(--accent-ink, #06231d); font-family: 'Public Sans', system-ui, sans-serif; font-weight: 600; border: none; border-radius: 0; text-decoration: none; transition: background 160ms cubic-bezier(0.23,1,0.32,1), color 160ms cubic-bezier(0.23,1,0.32,1), transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn-primary:hover { background: var(--ink, #ffffff); color: var(--bg, #191919); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 3px solid var(--field-4, #ffe927); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Text Link",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Plain underlined action; ink to teal on hover, no fill.",
+      "html": "<a class=\"ds-link-secondary\" href=\"#\">Email</a>",
+      "css": ".ds-link-secondary { color: var(--ink, #ffffff); font-family: 'Public Sans', system-ui, sans-serif; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; transition: color 160ms cubic-bezier(0.23,1,0.32,1); } .ds-link-secondary:hover { color: var(--accent, #1aa88f); }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "The only pill in the system; toggles a lens on the live Estimate. Surface at rest, teal when selected.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"false\">AI / ML</button><button class=\"ds-chip ds-chip--on\" aria-pressed=\"true\">Full-stack</button>",
+      "css": ".ds-chip { min-height: 44px; padding: 0 20px; border: none; border-radius: 9999px; background: var(--surface, #242424); color: var(--muted, #9a9a9a); font-family: 'Public Sans', system-ui, sans-serif; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: color 160ms cubic-bezier(0.23,1,0.32,1), background 160ms cubic-bezier(0.23,1,0.32,1), transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-chip:hover { color: var(--ink, #ffffff); } .ds-chip:active { transform: scale(0.97); } .ds-chip--on { background: var(--accent, #1aa88f); color: var(--accent-ink, #06231d); } .ds-chip:focus-visible { outline: 3px solid var(--field-4, #ffe927); outline-offset: 3px; }"
+    },
+    {
+      "name": "Project Tile",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Square, borderless tile in a 1px surface gutter grid; ground swaps to surface and title goes teal on hover.",
+      "html": "<a class=\"ds-tile\" href=\"#\"><span class=\"ds-tile__cat\">Robotics &amp; Embedded</span><span class=\"ds-tile__title\">FloorScan</span><span class=\"ds-tile__meta\">PyTorch CNN · 2024</span><span class=\"ds-tile__sum\">A handheld robot that reads the floor into a cleanliness heatmap.</span></a>",
+      "css": ".ds-tile { display: block; height: 100%; padding: 24px; background: var(--bg, #191919); border-radius: 0; text-decoration: none; transition: background 200ms cubic-bezier(0.23,1,0.32,1); } .ds-tile:hover { background: var(--surface, #242424); } .ds-tile__cat { display: block; font-family: 'Public Sans', system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.025em; color: var(--accent, #1aa88f); } .ds-tile__title { display: block; margin-top: 12px; font-family: 'Big Shoulders', system-ui, sans-serif; font-weight: 800; font-size: 1.5rem; line-height: 0.95; letter-spacing: -0.005em; text-transform: uppercase; color: var(--ink, #ffffff); } .ds-tile:hover .ds-tile__title { color: var(--accent, #1aa88f); } .ds-tile__meta { display: block; margin-top: 8px; font-size: 0.875rem; color: var(--muted, #9a9a9a); } .ds-tile__sum { display: block; margin-top: 16px; font-size: 1.1rem; color: rgba(255,255,255,0.85); }"
+    },
+    {
+      "name": "Primary Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Transparent bar over charcoal — no background, shadow, or border. Wordmark left, links and one teal Email action right.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav__mark\" href=\"#\">Aryan Bhatia</a><nav class=\"ds-nav__links\"><a href=\"#\">Work</a><a href=\"#\">Experience</a><a href=\"#\">Blog</a><a class=\"ds-nav__email\" href=\"#\">Email</a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; background: transparent; } .ds-nav__mark { font-family: 'Big Shoulders', system-ui, sans-serif; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.005em; text-transform: uppercase; color: var(--ink, #ffffff); text-decoration: none; } .ds-nav__mark:hover { color: var(--accent, #1aa88f); } .ds-nav__links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; } .ds-nav__links a { display: inline-flex; align-items: center; min-height: 44px; font-family: 'Public Sans', system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--muted, #9a9a9a); text-decoration: none; transition: color 160ms cubic-bezier(0.23,1,0.32,1); } .ds-nav__links a:hover { color: var(--ink, #ffffff); } .ds-nav__email { color: var(--accent, #1aa88f) !important; } .ds-nav__links a:focus-visible { outline: 3px solid var(--field-4, #ffe927); outline-offset: 3px; }"
+    },
+    {
+      "name": "Video Facade",
+      "kind": "custom",
+      "refersTo": "video-facade",
+      "description": "Click-to-play facade for the one real clip (Mir.AI). Square surface panel with a teal circular play glyph; nothing third-party loads until clicked.",
+      "html": "<button class=\"ds-video\" aria-label=\"Play video: Mir.AI demo\"><span class=\"ds-video__inner\"><span class=\"ds-video__glyph\"><svg width=\"22\" height=\"24\" viewBox=\"0 0 22 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M2 2v20l18-10L2 2z\"/></svg></span><span class=\"ds-video__title\">Play the demo</span><span class=\"ds-video__meta\">Mir.AI · YouTube</span></span></button>",
+      "css": ".ds-video { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 16/9; background: var(--surface, #242424); border: none; border-radius: 0; cursor: pointer; transition: background 200ms cubic-bezier(0.23,1,0.32,1); } .ds-video:hover { background: #2c2c2c; } .ds-video__inner { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px; text-align: center; } .ds-video__glyph { display: flex; align-items: center; justify-content: center; height: 64px; width: 64px; border-radius: 9999px; background: var(--accent, #1aa88f); color: var(--accent-ink, #06231d); } .ds-video__title { font-family: 'Big Shoulders', system-ui, sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -0.005em; text-transform: uppercase; color: var(--ink, #ffffff); } .ds-video__meta { font-family: 'Public Sans', system-ui, sans-serif; font-size: 0.875rem; color: var(--muted, #9a9a9a); } .ds-video:focus-visible { outline: 3px solid var(--field-4, #ffe927); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Instrument Panel",
+    "overview": "This is a portfolio that behaves like the engineering it describes: scattered signals converge into one confident reading. There are almost no pictures and that is the whole idea. The case is made entirely in words set at poster scale, in flat blocks of primary colour, and in generous void. The density is deliberately low at rest and loud at the moments that matter. The world is charcoal: near-black grounds carry white type, with a single accent teal doing the pointing and four flat poster primaries reserved for whole-panel inversions. The type does the work images would do elsewhere. There are no borders, no cards-with-shadows, no glass, no rounded surfaces; depth is one tonal step, never lift. The one anti-reference is the conventional clean modern developer template.",
+    "keyCharacteristics": [
+      "Charcoal ground, white ink, a single teal accent, four flat poster primaries for inversions.",
+      "Condensed uppercase display type (Big Shoulders 800) against a plain humanist body (Public Sans).",
+      "Flat by law: zero shadows, zero surface radius (pills only on filter chips).",
+      "Type and colour carry the page; imagery is minimal and never faked.",
+      "One loud motion moment (the masked line reveal), quiet entrances everywhere else."
+    ],
+    "rules": [
+      { "name": "The One Spotlight Rule", "body": "Signal Teal is the only accent on a charcoal screen. It marks the single thing you should act on next; if two teal elements compete in one viewport, one is wrong.", "section": "colors" },
+      { "name": "The Whole-Panel Primary Rule", "body": "The four poster primaries are never used as spot accents, borders, or text colour on charcoal. They ground an entire inverted panel, a chrome element, or nothing.", "section": "colors" },
+      { "name": "The Measure Rule", "body": "Running prose never exceeds 58ch; display type is free to fill the viewport.", "section": "typography" },
+      { "name": "The Caps-Are-Display-Only Rule", "body": "Uppercase belongs to Big Shoulders display and to small tracked category labels. Body prose is always sentence case in Public Sans.", "section": "typography" },
+      { "name": "The No-Shadow Rule", "body": "Surfaces never cast shadows. If an element needs to read as separate, step its ground one tone (bg to surface) or invert the whole panel to a field colour — never float it.", "section": "elevation" },
+      { "name": "The Square-By-Default Rule", "body": "Every surface is a hard rectangle. The pill shape is reserved exclusively for the live filter chips.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do keep Signal Teal (#1aa88f) rare — one actionable spotlight per viewport (The One Spotlight Rule).",
+      "Do express depth with the single bg to surface tonal step and panel inversions only (The No-Shadow Rule).",
+      "Do keep every surface a hard rectangle; reserve the pill for filter chips (The Square-By-Default Rule).",
+      "Do cap running prose at 58ch and let only display type fill the viewport (The Measure Rule).",
+      "Do keep uppercase to Big Shoulders display and small tracked labels (The Caps-Are-Display-Only Rule).",
+      "Do ground whole panels in the poster primaries; use charcoal/surface/ink/muted everywhere else.",
+      "Do keep entrances quiet (opacity + 24px translateY, 600ms ease-out, 80ms stagger), failure-safe and reduced-motion-safe; keep the masked line reveal as the one loud moment.",
+      "Do keep contact as a mailto: email set at display scale — no form."
+    ],
+    "donts": [
+      "Don't add box-shadows, bar chrome, glass, or lifted cards; the system has none.",
+      "Don't round surfaces; only the filter chip is a pill.",
+      "Don't use the poster primaries (red/blue/teal-field/yellow) as spot accents, borders, or text colour on charcoal.",
+      "Don't set body prose in uppercase or in the display face.",
+      "Don't invent a second accent or let two teal elements compete in one viewport.",
+      "Don't hand-roll motion curves; use the tokens (ease-out, ease-in-out, ease-drawer, dur-sig)."
+    ]
+  }
+}
