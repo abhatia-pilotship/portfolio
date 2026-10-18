@@ -10,13 +10,13 @@ export default function ExperiencePage() {
   return (
     <div className="page-x section-gap">
       <div className="mx-auto max-w-4xl">
-        <h1 className="font-display text-[clamp(3rem,10vw,7rem)] leading-[0.85] tracking-tight text-ink">
+        <h1 data-animate className="font-display text-[clamp(3rem,10vw,7rem)] leading-[0.85] tracking-tight text-ink">
           Experience
         </h1>
 
         <ol className="mt-16 space-y-14">
-          {profile.experience.map((e) => (
-            <li key={e.org + e.role} className="grid gap-4 md:grid-cols-[34%_1fr]">
+          {profile.experience.map((e, i) => (
+            <li key={e.org + e.role} data-animate data-animate-order={i} className="grid gap-4 md:grid-cols-[34%_1fr]">
               <div>
                 <h2 className="font-display text-2xl leading-[0.95] tracking-tight text-ink">
                   {e.role}
@@ -39,7 +39,7 @@ export default function ExperiencePage() {
 
         {/* Education */}
         <section className="mt-24">
-          <h2 className="font-display text-3xl tracking-tight text-ink">Education</h2>
+          <h2 data-animate className="font-display text-3xl tracking-tight text-ink">Education</h2>
           <div className="mt-8 space-y-10">
             {profile.education.map((ed) => (
               <div key={ed.org} className="grid gap-4 md:grid-cols-[34%_1fr]">
@@ -61,7 +61,7 @@ export default function ExperiencePage() {
 
         {/* Certifications */}
         <section className="mt-24">
-          <h2 className="font-display text-3xl tracking-tight text-ink">Certifications</h2>
+          <h2 data-animate className="font-display text-3xl tracking-tight text-ink">Certifications</h2>
           <ul className="mt-8 grid gap-px bg-surface sm:grid-cols-3">
             {profile.certifications.map((c) => (
               <li key={c.name} className="bg-bg p-6">
@@ -76,7 +76,7 @@ export default function ExperiencePage() {
 
         {/* Skills */}
         <section className="mt-24">
-          <h2 className="font-display text-3xl tracking-tight text-ink">Skills</h2>
+          <h2 data-animate className="font-display text-3xl tracking-tight text-ink">Skills</h2>
           <div className="mt-8 space-y-8">
             {profile.skills.map((group) => (
               <div key={group.label} className="grid gap-3 md:grid-cols-[34%_1fr]">

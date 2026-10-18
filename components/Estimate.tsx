@@ -58,7 +58,7 @@ export function Estimate({
       <div className="mx-auto max-w-5xl">
         <h2 className="sr-only">The work</h2>
 
-        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter the work by what you're hiring for">
+        <div data-animate className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter the work by what you're hiring for">
           <button
             type="button"
             onClick={() => setActive(new Set())}
@@ -81,6 +81,8 @@ export function Estimate({
         </div>
 
         <p
+          data-animate
+          data-animate-order={1}
           aria-live="polite"
           className="mt-8 max-w-3xl text-[clamp(1.25rem,1rem+1.4vw,2rem)] font-semibold leading-snug text-ink"
         >
@@ -119,7 +121,7 @@ export function Estimate({
 
 function chip(on: boolean) {
   return [
-    "min-h-[44px] rounded-full px-5 text-small font-semibold transition-colors",
+    "press min-h-[44px] rounded-full px-5 text-small font-semibold transition-colors",
     on ? "bg-accent text-accent-ink" : "bg-surface text-muted hover:text-ink",
   ].join(" ");
 }

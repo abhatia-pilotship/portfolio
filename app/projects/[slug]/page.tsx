@@ -44,17 +44,17 @@ export default async function ProjectPage({
   return (
     <article className="page-x section-gap">
       <div className="mx-auto max-w-4xl">
-        <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[0.88] tracking-tight text-ink">
+        <h1 data-animate className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[0.88] tracking-tight text-ink">
           {project.title}
         </h1>
-        <p className="mt-5 text-small font-semibold uppercase tracking-wide text-accent">
+        <p data-animate data-animate-order={1} className="mt-5 text-small font-semibold uppercase tracking-wide text-accent">
           {project.categoryLabel} · {project.tag} · <span className="text-muted">{project.dates}</span>
         </p>
 
-        <p className="mt-8 max-w-measure text-lead leading-snug text-ink/90">{project.summary}</p>
+        <p data-animate data-animate-order={2} className="mt-8 max-w-measure text-lead leading-snug text-ink/90">{project.summary}</p>
 
         {/* Lead media: the one real clip (Mir.AI) or a labelled placeholder */}
-        <div className="mt-12">
+        <div data-animate data-animate-order={3} className="mt-12">
           {videoId ? (
             <ProjectVideo id={videoId} title={project.title} />
           ) : (
@@ -63,7 +63,7 @@ export default async function ProjectPage({
         </div>
 
         {project.metrics.length > 0 && (
-          <ul className="mt-12 grid gap-px bg-surface sm:grid-cols-2">
+          <ul data-animate className="mt-12 grid gap-px bg-surface sm:grid-cols-2">
             {project.metrics.map((m, i) => (
               <li key={i} className="bg-bg p-6 text-body text-ink/90">
                 {m}
@@ -78,12 +78,12 @@ export default async function ProjectPage({
         </div>
 
         {/* Stack + links */}
-        <div className="mt-16 grid gap-10 border-0 sm:grid-cols-[1fr_auto]">
+        <div data-animate className="mt-16 grid gap-10 border-0 sm:grid-cols-[1fr_auto]">
           <div>
             <h2 className="font-display text-xl tracking-tight text-ink">Stack</h2>
             <ul className="mt-4 flex flex-wrap gap-2">
-              {project.stack.map((s) => (
-                <li key={s} className="bg-surface px-3 py-1 text-small text-ink/90">
+              {project.stack.map((s, i) => (
+                <li key={s} data-animate data-animate-order={i} className="bg-surface px-3 py-1 text-small text-ink/90">
                   {s}
                 </li>
               ))}
@@ -110,7 +110,7 @@ export default async function ProjectPage({
           )}
         </div>
 
-        <div className="mt-20">
+        <div data-animate className="mt-20">
           <Link href="/projects" className="font-semibold text-accent hover:text-ink">
             ← Back to all work
           </Link>

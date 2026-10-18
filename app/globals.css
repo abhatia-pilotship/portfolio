@@ -36,8 +36,10 @@
   /* Page margins (one pair, used everywhere) */
   --margin: clamp(1.25rem, 0.8rem + 2.2vw, 3rem);
 
-  /* Motion tokens (Emil's rules applied in Phase 3; values tuned there) */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Motion tokens — Emil Kowalski's curves, verbatim (never hand-rolled). */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --dur-sig: 900ms;
 }
 
@@ -131,13 +133,76 @@ svg {
 @media (prefers-reduced-motion: no-preference) {
   html.js [data-animate] {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
     transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
-    will-change: opacity, transform;
   }
   html.js [data-animate].in {
     opacity: 1;
     transform: none;
+  }
+}
+
+/*
+  Signature move — "Masked line reveal" (hero headline). Pure CSS so it plays off the
+  main thread and WITHOUT JS; reduced-motion drops the travel but keeps the content.
+  transform + opacity only. Each line sits in an overflow-clip mask and rises from
+  behind its own baseline; the supporting line and actions fade up after.
+*/
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.line-mask > span {
+  display: block;
+  transform: translateY(110%);
+  animation: lineRise var(--dur-sig) var(--ease-out) both;
+}
+@keyframes lineRise {
+  to {
+    transform: translateY(0);
+  }
+}
+.hero-fade {
+  animation: fadeUp 600ms var(--ease-out) both;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Control feedback — subtle press; hover travel gated to real pointers. */
+.press {
+  transition: transform 140ms var(--ease-out);
+}
+.press:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .lift {
+    transition: transform 160ms var(--ease-out);
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-mask > span,
+  .hero-fade {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .press,
+  .lift {
+    transition: none !important;
   }
 }
 

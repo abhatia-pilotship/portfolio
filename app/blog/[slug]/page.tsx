@@ -33,13 +33,13 @@ export default async function PostPage({
       <div className="mx-auto max-w-4xl">
         {/* Widened header so the real (long) article title stays dominant on desktop yet
             fits two lines down to mobile. Body prose below stays at reading measure. */}
-        <h1 className="font-display text-[clamp(1.25rem,0.5rem+3.2vw,3rem)] leading-[1.05] tracking-tight text-ink">
+        <h1 data-animate className="font-display text-[clamp(1.25rem,0.5rem+3.2vw,3rem)] leading-[1.05] tracking-tight text-ink">
           {post.title}
         </h1>
-        <p className="mt-5 text-small tabular-nums text-muted">
+        <p data-animate data-animate-order={1} className="mt-5 text-small tabular-nums text-muted">
           {post.displayDate} · {post.readingTime}
         </p>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div data-animate data-animate-order={2} className="mt-4 flex flex-wrap gap-2">
           {post.tags.map((t) => (
             <span key={t} className="bg-surface px-2.5 py-1 text-small text-muted">
               {t}

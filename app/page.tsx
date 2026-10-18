@@ -24,24 +24,23 @@ export default function Home() {
       {/* 1. Hero — Void, then statement on axis */}
       <section className="page-x flex min-h-[86svh] flex-col justify-end pb-[9svh] pt-[16svh]">
         <div className="lg:ml-[42%]">
-          <h1
-            data-animate
-            data-animate-order={0}
-            className="font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.9] tracking-tight text-ink"
-          >
-            {profile.hero.headline[0]}
-            <br />
-            {profile.hero.headline[1]}
+          <h1 className="font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.9] tracking-tight text-ink">
+            <span className="line-mask">
+              <span>{profile.hero.headline[0]}</span>
+            </span>
+            <span className="line-mask">
+              <span style={{ animationDelay: "110ms" }}>{profile.hero.headline[1]}</span>
+            </span>
           </h1>
         </div>
         <div className="mt-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <p data-animate data-animate-order={1} className="max-w-md text-lead text-ink/90">
+          <p className="hero-fade max-w-md text-lead text-ink/90" style={{ animationDelay: "320ms" }}>
             {profile.hero.supporting}
           </p>
-          <div data-animate data-animate-order={2} className="flex items-center gap-5">
+          <div className="hero-fade flex items-center gap-5" style={{ animationDelay: "420ms" }}>
             <Link
               href={profile.hero.primary.href}
-              className="inline-flex min-h-[44px] items-center bg-accent px-6 font-semibold text-accent-ink transition-colors hover:bg-ink hover:text-bg"
+              className="press inline-flex min-h-[44px] items-center bg-accent px-6 font-semibold text-accent-ink transition-colors hover:bg-ink hover:text-bg"
             >
               {profile.hero.primary.label}
             </Link>
@@ -59,19 +58,19 @@ export default function Home() {
       <section className="page-x section-gap" aria-labelledby="span-heading">
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-baseline md:justify-between">
-            <h2 id="span-heading" className="font-display text-3xl tracking-tight text-ink">
+            <h2 data-animate id="span-heading" className="font-display text-3xl tracking-tight text-ink">
               Both ends of the system
             </h2>
-            <p className="max-w-md text-body text-muted">
+            <p data-animate data-animate-order={1} className="max-w-md text-body text-muted">
               I write C that runs on a flight computer, train models that run in the cloud, and
               build the full-stack web that ties them together.
             </p>
           </div>
           <div className="mt-14">
-            <p className="font-display text-[clamp(3rem,14vw,10rem)] leading-[0.82] tracking-tight text-ink">
+            <p data-animate className="font-display text-[clamp(3rem,14vw,10rem)] leading-[0.82] tracking-tight text-ink">
               Firmware
             </p>
-            <p className="font-display text-right text-[clamp(3rem,14vw,10rem)] leading-[0.82] tracking-tight text-ink">
+            <p data-animate data-animate-order={1} className="font-display text-right text-[clamp(3rem,14vw,10rem)] leading-[0.82] tracking-tight text-ink">
               Models
             </p>
           </div>
@@ -88,7 +87,7 @@ export default function Home() {
       <section className="page-x section-gap bg-surface" aria-labelledby="about-heading">
         <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-[34%_1fr]">
           <div>
-            <h2 id="about-heading" className="font-display text-3xl tracking-tight text-ink">
+            <h2 data-animate id="about-heading" className="font-display text-3xl tracking-tight text-ink">
               About
             </h2>
             <dl className="mt-6 space-y-4 text-small">
@@ -106,7 +105,7 @@ export default function Home() {
               </div>
             </dl>
           </div>
-          <div className="space-y-5">
+          <div data-animate data-animate-order={1} className="space-y-5">
             {profile.bio.map((para, i) => (
               <p key={i} className="max-w-measure text-lead leading-snug text-ink/90">
                 {para}
@@ -120,10 +119,10 @@ export default function Home() {
       {/* 5. One moving picture — the Mir.AI demo (the only real clip on hand) */}
       <section className="page-x section-gap" aria-labelledby="video-heading">
         <div className="mx-auto max-w-5xl">
-          <h2 id="video-heading" className="font-display text-3xl tracking-tight text-ink">
+          <h2 data-animate id="video-heading" className="font-display text-3xl tracking-tight text-ink">
             Mir.AI, in motion
           </h2>
-          <p className="mt-3 max-w-measure text-body text-muted">
+          <p data-animate data-animate-order={1} className="mt-3 max-w-measure text-body text-muted">
             The one demo on film: a GAN pipeline enhancing 1.5T MRI scans toward 3T quality.
             Hackalytics 2025 Healthcare Track winner.
           </p>
@@ -136,10 +135,10 @@ export default function Home() {
       {/* 6. experience — Names as one paragraph */}
       <section className="page-x section-gap" aria-labelledby="exp-heading" id="experience">
         <div className="mx-auto max-w-6xl">
-          <h2 id="exp-heading" className="font-display text-3xl tracking-tight text-ink">
+          <h2 data-animate id="exp-heading" className="font-display text-3xl tracking-tight text-ink">
             Where I've done it
           </h2>
-          <p className="mt-8 font-display text-[clamp(1.5rem,0.9rem+2vw,2.125rem)] leading-[1.15] tracking-tight text-muted">
+          <p data-animate data-animate-order={1} className="mt-8 font-display text-[clamp(1.5rem,0.9rem+2vw,2.125rem)] leading-[1.15] tracking-tight text-muted">
             {profile.experience.map((e, i) => (
               <span key={e.org + e.role}>
                 <Link href="/experience" className="text-ink transition-colors hover:text-accent">
@@ -160,10 +159,10 @@ export default function Home() {
       {/* 7. list — Two-ended rows (writing) */}
       <section className="page-x section-gap bg-surface" aria-labelledby="writing-heading" id="writing">
         <div className="mx-auto max-w-3xl">
-          <h2 id="writing-heading" className="font-display text-3xl tracking-tight text-ink">
+          <h2 data-animate id="writing-heading" className="font-display text-3xl tracking-tight text-ink">
             Writing
           </h2>
-          <ul className="mt-8">
+          <ul data-animate data-animate-order={1} className="mt-8">
             {posts.map((post) => (
               <li key={post.slug}>
                 <Link
@@ -190,16 +189,18 @@ export default function Home() {
 
       {/* 8. contact — The email as display type (inverted field) */}
       <section className="page-x flex min-h-[88svh] flex-col justify-between bg-field-3 py-16 text-field-3-ink" id="contact">
-        <p className="max-w-xl text-lead">
+        <p data-animate className="max-w-xl text-lead">
           Hiring for AI, robotics, or full-stack? Tell me what you're building.
         </p>
         <a
+          data-animate
+          data-animate-order={1}
           href={`mailto:${profile.email}`}
           className="font-display block break-all text-[clamp(2rem,8.5vw,7rem)] leading-[0.95] tracking-tight transition-opacity hover:opacity-80"
         >
           {profile.email}
         </a>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-small">
+        <div data-animate data-animate-order={2} className="flex flex-wrap gap-x-6 gap-y-2 text-small">
           <span>{profile.location}</span>
           {profile.socials.map((s) => (
             <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:opacity-80">
