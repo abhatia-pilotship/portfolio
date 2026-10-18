@@ -1,0 +1,72 @@
+---
+title: "What if Code Had Sound? Building Accessibility into Programming Itself"
+slug: "accessibility-in-code-editors"
+date: "2025-05-10"
+displayDate: "May 10, 2025"
+readingTime: "7 min read"
+tags: ["Accessibility", "JavaScript", "Web Audio API", "Inclusive Design"]
+summary: "Screen readers make software accessible. But they weren't designed for code — and the mismatch shows. Here's why I built an auditory feedback system for programming and what I learned about the gap between accessibility compliance and genuine inclusion."
+---
+
+There's a moment in most accessibility discussions where someone points to WCAG 2.1 compliance and considers the problem solved. Contrast ratios checked. Alt text added. Tab order verified. Shipped.
+
+For most software, that's a reasonable baseline. For code editors — the tools used by developers themselves — it's barely a start.
+
+The problem is structural. Screen readers are designed for content consumption: reading documents, navigating forms, hearing button labels. Code is not content. Code is a spatial, hierarchical, syntactically dense artifact where the shape of the text carries meaning. A three-level-deep nested function doesn't just have different words than a top-level one — it has different geometry. Current screen readers flatten that geometry entirely.
+
+## The Experiment
+
+What I built was a real-time auditory feedback system that maps code structure to sound. The core insight: if sighted programmers use visual cues (indentation, syntax highlighting, bracket matching) to understand code structure at a glance, then the equivalent for blind programmers should be auditory cues — a soundscape that encodes the same structural information.
+
+Using the Web Audio API, the system generates distinct audio signatures for:
+
+- **Indentation depth → pitch.** Each nesting level raises the fundamental frequency by a perfect fourth. Your ear immediately hears "this code goes deeper."
+- **Syntax errors → a dissonant minor second chord.** Unmistakable, slightly uncomfortable. You don't need to see a red squiggle to know something's wrong.
+- **Function boundaries → a subtle resonant tone, like a bell.** You're entering a scope.
+- **Loop iterations → rhythmic percussive patterns.** Fast loops sound fast.
+- **Comments → softer, muted timbre.** Background, not foreground.
+
+```js
+function pitchForDepth(depth) {
+  const BASE_FREQ = 220; // A3
+  const RATIO = 4 / 3;  // Perfect fourth
+  return BASE_FREQ * Math.pow(RATIO, depth);
+}
+
+function playTone(frequency, duration, type = 'sine') {
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.type = type;
+  osc.frequency.value = frequency;
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + duration);
+}
+```
+
+## What I Learned About Cognitive Load
+
+The original hypothesis was that auditory cues would supplement screen reader output. User testing showed something different: for experienced blind programmers, the screen reader narration was actually the noisier channel. They wanted to hear the code's structure, not have it spelled out word by word.
+
+This led to a mode design: the system has a "structure mode" that suppresses verbose narration and emphasizes structural audio, and a "detail mode" that inverts this. The programmer toggles between them depending on whether they're navigating (structure) or writing (detail).
+
+Adaptive difficulty turned out to matter enormously. Beginners need the audio to be explicit and distinct — sounds spaced far apart, unmistakable timbres. Experienced users found this overwhelming and wanted subtle, ambient cues they could ignore when not needed. The system now uses a proficiency model (inferred from typing speed and error rate) to dynamically compress the auditory range.
+
+## The Gap Between Compliance and Inclusion
+
+Here's the harder observation: WCAG compliance, by design, is about removing barriers. It doesn't require that tools be good for disabled users — just that they not be blocked. A code editor that passes accessibility audits can still be functionally unusable for a blind programmer if the screen reader output is a stream of "bracket, bracket, colon, bracket" with no structural context.
+
+Genuine inclusion requires asking what the equivalent experience looks like. Not "can a blind user technically activate this button?" but "does a blind developer have the same situational awareness while coding that a sighted developer has?" Those are very different questions.
+
+The tools we use to build software shape what software gets built. If programming tools are hostile to disabled developers, those developers leave. And then we build products designed by — and implicitly for — people without those disabilities. The cycle is self-reinforcing.
+
+Building accessible tooling isn't separate from building good software. It's the same work, done more carefully.
+
+The project is live and open source. If you work in assistive technology or know blind programmers who want to try it, I'd genuinely like feedback.

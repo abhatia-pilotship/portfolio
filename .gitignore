@@ -162,3 +162,6 @@ blob-report/
 # Impeccable local-only config and any machine-local overrides
 .impeccable/config.local.json
 *.local.json
+
+# Next.js generated
+next-env.d.ts

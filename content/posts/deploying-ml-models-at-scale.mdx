@@ -1,0 +1,56 @@
+---
+title: "Deploying ML Models at Scale: Lessons from Mir.AI"
+slug: "deploying-ml-models-at-scale"
+date: "2025-03-15"
+displayDate: "March 15, 2025"
+readingTime: "8 min read"
+tags: ["AI", "MLOps", "FastAPI", "Production"]
+summary: "Building a production-grade image processing pipeline for medical AI taught me more about systems design than any textbook could. Here's what broke, what held, and what I'd do differently."
+---
+
+When you build an ML model in a notebook, everything feels clean. You have your training loop, your loss curves, maybe a nice confusion matrix. Then someone asks you to put it on the internet and suddenly you're dealing with GPU memory leaks, serialization nightmares, and latency budgets that your 3-second inference time laughs at.
+
+That was the situation with Mir.AI — a GAN-based system for enhancing 1.5T MRI scans to 3T quality. We won the Healthcare Track at Hackalytics 2025, which was exciting. What came after was more instructive.
+
+## The Architecture That Almost Wasn't
+
+Our initial stack was a Python script wrapped in a Flask app. It worked on my machine. It worked on the demo day laptop. It would not work in any production-like environment, and here's why:
+
+**Problem 1: The model loading time.** Loading a PyTorch model cold takes time — sometimes seconds. If you load it on every request, your API is unusable. The fix is obvious in retrospect: load once at startup, keep in memory, share across workers. With FastAPI and a lifespan context manager, this looked like:
+
+```python
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+
+model = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model
+    model = load_model("checkpoint.pt")
+    model.eval()
+    yield
+    del model
+
+app = FastAPI(lifespan=lifespan)
+```
+
+**Problem 2: Synchronous inference blocking the event loop.** FastAPI is async, but `torch.inference_mode()` is synchronous and CPU/GPU-bound. Running it inline in an async route handler blocks the entire event loop. The fix is `asyncio.get_event_loop().run_in_executor(None, sync_inference_fn, image)` — offload the blocking call to a thread pool.
+
+**Problem 3: Image serialization.** We were passing PIL images through our pipeline, converting to tensors, back to PIL, then to base64 strings for the API response. Each conversion introduced either lossy compression or unnecessary memory allocation. We settled on passing raw numpy arrays through the internal pipeline and only serializing to PNG at the boundary.
+
+## The Training Pipeline That Scaled
+
+For the GAN training itself, we used PyTorch Lightning. If you haven't used it, the biggest benefit isn't the API cleanliness — it's the built-in support for gradient accumulation, mixed precision, and multi-GPU training. We hit 50 epochs per hour on a single A100, which was fast enough to iterate meaningfully during a 36-hour hackathon.
+
+The Contrastive Unpaired Translation (CUT) approach we ended up with was notable because it doesn't require paired 1.5T/3T scans — pairs are expensive to acquire clinically. You train on unpaired datasets from different scanners, and the model learns the structural mapping without direct supervision.
+
+## What I'd Do Differently
+
+**Pin your random seeds everywhere, not just in the model.** DataLoader workers have their own seeds. NumPy has its own seed. Not controlling these cost us a week of non-reproducible results.
+
+**Version your datasets, not just your models.** We used MLflow for model versioning but tracked datasets only by filename. When a preprocessing script had a bug, we had no clean way to identify which model checkpoints were trained on clean vs. corrupted data.
+
+**Build the evaluation pipeline before the training pipeline.** We spent two days training before we had meaningful quantitative metrics beyond SSIM. You can't improve what you can't measure.
+
+The problem this project tackles — democratizing access to high-quality diagnostic imaging — is real and urgent. The engineering is the interesting part of getting there. Every production ML system is a distributed systems problem in disguise.

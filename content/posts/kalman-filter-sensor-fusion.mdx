@@ -1,0 +1,78 @@
+---
+title: "Sensor Fusion and the Kalman Filter: What the Math Is Actually Saying"
+slug: "kalman-filter-sensor-fusion"
+date: "2025-01-20"
+displayDate: "January 20, 2025"
+readingTime: "10 min read"
+tags: ["Robotics", "Math", "Embedded", "C"]
+summary: "The Kalman filter is one of those algorithms that looks like linear algebra until you understand it, then looks like philosophy. Here's the intuition I wish I had before implementing it for a flight computer."
+---
+
+I spent three months implementing a multivariate Kalman filter for the GTXR flight computer. I have read the Wikipedia article, the original 1960 paper, and approximately fourteen StackOverflow answers. None of them gave me the intuition I actually needed until I stopped thinking about it as a filter and started thinking about it as optimal belief revision under uncertainty.
+
+Let me try to give you that intuition directly.
+
+## The Problem in Plain English
+
+You have a drone. The drone has an accelerometer and a gyroscope. Both sensors lie — not maliciously, but structurally. Accelerometers measure gravity + linear acceleration and drift at low frequencies. Gyroscopes measure angular rate and drift at high frequencies. Neither alone gives you a reliable estimate of orientation.
+
+You want a single, confident answer: where is this vehicle pointing right now?
+
+The Kalman filter is the mathematically optimal way to combine these noisy measurements into that single answer — optimal in the sense that it minimizes the mean squared error of the estimate, given Gaussian noise assumptions.
+
+## The Two Steps
+
+The filter alternates between two operations:
+
+**Predict:** Given where you think you are and your model of how the system evolves, predict where you'll be next. This uses the process model — the physics or kinematics of your system.
+
+```
+x̂_k|k-1 = F · x̂_k-1|k-1 + B · u_k
+P_k|k-1  = F · P_k-1|k-1 · Fᵀ + Q
+```
+
+F is the state transition matrix. P is the covariance of your uncertainty. Q is the process noise — how much you trust your model.
+
+**Update:** A measurement arrives. Compare it against your prediction. If they match, barely adjust. If they diverge, adjust more. The Kalman gain K is the weight that decides how much to trust the measurement vs. the prediction:
+
+```
+K   = P_k|k-1 · Hᵀ · (H · P_k|k-1 · Hᵀ + R)⁻¹
+x̂_k = x̂_k|k-1 + K · (z_k - H · x̂_k|k-1)
+P_k = (I - K · H) · P_k|k-1
+```
+
+R is the measurement noise covariance — how much you trust the sensor. H maps your state to the measurement space.
+
+When R is large (noisy sensor), K shrinks, and you lean on your prediction. When R is small (good sensor), K grows, and you lean on the measurement. The filter is constantly negotiating between these two sources of information.
+
+## The Part Nobody Tells You: Quaternions vs. Euler Angles
+
+For a flight computer, representing orientation is harder than it sounds. The naive approach is Euler angles (roll, pitch, yaw). This breaks at gimbal lock — certain orientations where two rotation axes align and you lose a degree of freedom. It's not a theoretical problem; it caused real issues in early aerospace.
+
+The correct representation is quaternions: four-component unit vectors in SO(3) that avoid this singularity. My Java matrix library handles both representations, but the filter state uses quaternions internally and only converts to Euler angles at the output layer for human-readable telemetry.
+
+The catch: the standard Kalman filter assumes a vector state space and linear operations. Quaternion averaging is not linear. The solution is to use an Extended Kalman Filter (EKF) or Unscented Kalman Filter (UKF), which linearize around the current estimate. We implemented EKF for the GTXR system because the computational cost was manageable on our microcontroller.
+
+## Complementary Filter as a Sanity Check
+
+Before trusting the full Kalman implementation, we validated it against a simpler complementary filter. The complementary filter is essentially:
+
+```
+angle = α × (angle + gyro_rate × dt) + (1 - α) × accel_angle
+```
+
+It's a weighted average between gyro integration (good short-term, drifts long-term) and accelerometer-derived angle (good long-term, noisy short-term). Typically α ≈ 0.98.
+
+The Kalman filter outperformed the complementary filter in all dynamic scenarios — rapid attitude changes, vibration, prolonged flight — but the complementary filter was invaluable for validating our sensor fusion intuition before committing to the complexity.
+
+## Implementation Notes for Embedded C
+
+The embedded C implementation had constraints the Java prototype didn't: no heap allocation, no floating-point exceptions, 32-bit floats only. A few specific lessons:
+
+- **Pre-allocate all matrices statically.** Dynamic allocation on an RTOS is a footgun. Define your state vector size at compile time and allocate everything in `.bss`.
+- **Guard your matrix inverse.** When the matrix being inverted is near-singular (happens with degenerate sensor configurations), the filter will produce NaN. Check the determinant before inverting.
+- **Tune Q and R empirically, not analytically.** You will not get the noise covariances right from datasheets alone. Log sensor data at rest and in motion, then fit your Q and R to the observed variance.
+
+The filter is working in simulation with sub-0.5° steady-state error. Flight validation is the next step.
+
+If this post helped and you're working on something similar, I'm reachable on GitHub. Sensor fusion is one of those problems where the implementation details matter enormously and good reference implementations are surprisingly rare.

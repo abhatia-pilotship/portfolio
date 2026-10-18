@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens — taste-skill direction sheet, seed 1814682534, "Type and nothing else".
+  Colour: "Charcoal and primaries". Type: Big Shoulders (display) / Public Sans (text).
+  --font-display / --font-text are injected by next/font in app/layout.tsx.
+*/
+:root {
+  --bg: #191919;
+  --surface: #242424;
+  --ink: #ffffff;
+  --muted: #9a9a9a;
+  /* Lightened from the sheet's #0c7866 so accent TEXT clears 4.5:1 on charcoal;
+     accent-ink darkened to keep button labels readable on the accent fill.
+     The sheet's original teal is preserved as --field-3 for full-panel grounds. */
+  --accent: #1aa88f;
+  --accent-ink: #06231d;
+
+  --field-1: #d71e1e;
+  --field-1-ink: #ffffff;
+  --field-2: #1e4bd7;
+  --field-2-ink: #ffffff;
+  --field-3: #0c7866;
+  --field-3-ink: #ffffff;
+  --field-4: #ffe927;
+  --field-4-ink: #111111;
+
+  /* Type steps from the sheet */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.5rem, 1.2rem + 5vw, 5.5rem);
+
+  /* Page margins (one pair, used everywhere) */
+  --margin: clamp(1.25rem, 0.8rem + 2.2vw, 3rem);
+
+  /* Motion tokens (Emil's rules applied in Phase 3; values tuned there) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-sig: 900ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: var(--step-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display face: Big Shoulders, uppercase, tight. */
+.font-display,
+h1,
+h2,
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Visible focus for keyboard users (WCAG 2.2 AA) */
+:focus-visible {
+  outline: 3px solid var(--field-4);
+  outline-offset: 3px;
+}
+
+/* Shared page shell */
+.page-x {
+  padding-inline: var(--margin);
+}
+
+.section-gap {
+  padding-block: clamp(5rem, 3rem + 9vw, 11rem);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--field-4);
+  color: var(--field-4-ink);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: var(--margin);
+  top: 0.5rem;
+}
+
+/*
+  Motion defaults — FAILURE SAFE.
+  Content is visible by default. The hidden/entrance state is applied ONLY when the
+  inline head script has added `.js` to <html> (so no-JS keeps everything visible),
+  and ONLY when the user has not asked for reduced motion. Phase 3 layers the real
+  choreography on top of [data-animate]; the reveal observer adds `.in`.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-animate] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    will-change: opacity, transform;
+  }
+  html.js [data-animate].in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
