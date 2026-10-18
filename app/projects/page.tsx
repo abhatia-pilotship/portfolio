@@ -21,6 +21,10 @@ export default function ProjectsPage() {
           web. Four are featured on the home page; every one has its own page.
         </p>
 
+        {projects.length === 0 && (
+          <p className="mt-16 text-body text-muted">Projects are being added — check back soon.</p>
+        )}
+
         <ul className="mt-16 grid gap-px bg-surface sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
             <li key={p.slug} data-animate data-animate-order={i} className="bg-bg">

@@ -40,7 +40,7 @@ const config: Config = {
         head: "var(--step-head)",
       },
       maxWidth: {
-        measure: "68ch",
+        measure: "58ch",
       },
     },
   },

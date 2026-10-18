@@ -40,11 +40,18 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   const videoId = youTubeId(project.video);
+  // Long real titles can't be truncated; scale them down so they don't swallow the fold.
+  const longTitle = project.title.length > 38;
 
   return (
     <article className="page-x section-gap">
       <div className="mx-auto max-w-4xl">
-        <h1 data-animate className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[0.88] tracking-tight text-ink">
+        <h1
+          data-animate
+          className={`font-display leading-[0.95] tracking-tight text-ink ${
+            longTitle ? "text-[clamp(2rem,1rem+3.2vw,3.25rem)]" : "text-[clamp(2.5rem,7vw,5.5rem)]"
+          }`}
+        >
           {project.title}
         </h1>
         <p data-animate data-animate-order={1} className="mt-5 text-small font-semibold uppercase tracking-wide text-accent">

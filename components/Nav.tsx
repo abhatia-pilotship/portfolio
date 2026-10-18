@@ -22,19 +22,19 @@ export function Nav() {
       >
         {profile.name}
       </Link>
-      <nav aria-label="Primary" className="flex items-center gap-x-5 gap-y-1 flex-wrap justify-end">
+      <nav aria-label="Primary" className="-my-2 flex flex-wrap items-center justify-end gap-x-5 gap-y-1">
         {links.map((l) => (
           <Link
             key={l.href}
             href={l.href}
-            className="text-small font-semibold text-muted transition-colors hover:text-ink"
+            className="inline-flex min-h-[44px] items-center py-2 text-small font-semibold text-muted transition-colors hover:text-ink"
           >
             {l.label}
           </Link>
         ))}
         <a
           href={`mailto:${profile.email}`}
-          className="text-small font-semibold text-accent hover:text-ink"
+          className="inline-flex min-h-[44px] items-center py-2 text-small font-semibold text-accent hover:text-ink"
         >
           Email
         </a>

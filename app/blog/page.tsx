@@ -20,6 +20,10 @@ export default function BlogPage() {
           Notes on AI engineering, embedded systems, robotics, and building software with intention.
         </p>
 
+        {posts.length === 0 && (
+          <p className="mt-16 text-body text-muted">No posts yet — check back soon.</p>
+        )}
+
         <ul className="mt-16 space-y-12">
           {posts.map((post) => (
             <li key={post.slug}>
